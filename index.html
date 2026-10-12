@@ -204,9 +204,18 @@ body.editing .notecard .nb:hover{outline:1px dashed var(--amber);outline-offset:
 .wheelwrap canvas{width:100%;height:auto;display:block}
 .drawres{list-style:none;display:flex;flex-direction:column;gap:6px;max-height:520px;overflow:auto}
 .drawres li{display:flex;align-items:center;gap:10px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-weight:500}
-.grouprow th{cursor:default;padding:5px 9px;border-bottom:1px solid var(--line)}
-.grouprow th.ghd{text-align:center;color:var(--cyan);font-size:12px;font-weight:700;letter-spacing:.02em;border-left:1px solid var(--line);border-right:1px solid var(--line);background:#0F2743}
+.grouprow th{cursor:default;padding:6px 9px;border-bottom:1px solid var(--line)}
+.grouprow th.ghd{text-align:center;font-size:13px;font-weight:700;letter-spacing:.03em;color:#fff;border-top:3px solid var(--gc);border-left:2px solid var(--gc);border-right:2px solid var(--gc);border-bottom:2px solid var(--gc)}
 .floathdr .grouprow th{cursor:default}
+/* 분류별 색: 0=공용(영웅) 청록 · 1=전용(영웅) 보라 · 2=공용(희귀) 주황 */
+.gc0{--gc:#3BD6E8;--gbg:#0E3550}
+.gc1{--gc:#B26BFF;--gbg:#2E1A52}
+.gc2{--gc:#F5A524;--gbg:#4A3010}
+.grouprow th.ghd{background:var(--gbg)}
+th.gc0,th.gc1,th.gc2{background:var(--gbg)}
+th.gl,td.gl{border-left:2px solid var(--gc)}
+th.gr,td.gr{border-right:2px solid var(--gc)}
+td.gc0,td.gc1,td.gc2{background-image:linear-gradient(0deg,rgba(255,255,255,.015),rgba(255,255,255,.015))}
 th.sortable{cursor:pointer;user-select:none}
 th.sortable:hover{color:var(--cyan)}
 th .arr{opacity:.5;font-size:10px}
@@ -885,6 +894,11 @@ function sortableTable(cols,rows,opts={}){
         });
       }
     }
+    const gcls=vis.map((c,i)=>{ // 같은 분류의 맨 앞 열은 왼쪽, 맨 끝 열은 오른쪽에 굵은 선
+      if(!c.group)return '';
+      const prev=vis[i-1],next=vis[i+1];
+      return 'gc'+c.gidx+(!prev||prev.group!==c.group?' gl':'')+(!next||next.group!==c.group?' gr':'');
+    });
     let grow='';
     if(vis.some(c=>c.group)){ // 같은 분류가 이어지면 한 칸으로 묶음, 분류 없는 열은 빈 칸
       grow='<tr class="grouprow">';
@@ -892,16 +906,16 @@ function sortableTable(cols,rows,opts={}){
         const gname=vis[i].group||'';
         if(!gname){grow+='<th class="gempty"></th>';i++;continue;}
         let n=1;while(i+n<vis.length&&vis[i+n].group===gname)n++;
-        grow+=`<th class="ghd" colspan="${n}">${T(gname)}</th>`;i+=n;
+        grow+=`<th class="ghd gc${vis[i].gidx}" colspan="${n}">${T(gname)}</th>`;i+=n;
       }
       grow+='</tr>';
     }
-    table.innerHTML='<thead>'+grow+'<tr>'+vis.map(c=>`<th class="sortable ${c.cls||''}" data-k="${c.k}">${c.label} <span class="arr">${sortK===c.k?(dir>0?'▲':'▼'):'⇅'}</span></th>`).join('')+'</tr></thead>';
+    table.innerHTML='<thead>'+grow+'<tr>'+vis.map((c,i)=>`<th class="sortable ${c.cls||''} ${gcls[i]}" data-k="${c.k}">${c.label} <span class="arr">${sortK===c.k?(dir>0?'▲':'▼'):'⇅'}</span></th>`).join('')+'</tr></thead>';
     const tb=document.createElement('tbody');
     data.forEach((r,i)=>{
       const tr=document.createElement('tr');
-      vis.forEach(c=>{
-        const td=document.createElement('td');td.className=c.cls||'';
+      vis.forEach((c,ci)=>{
+        const td=document.createElement('td');td.className=((c.cls||'')+' '+gcls[ci]).trim();
         c.cell(td,r,i);
         tr.appendChild(td);
       });
@@ -1304,7 +1318,7 @@ function renderSkillLike(cfg){
     {k:'_rank',label:TH('순위'),num:true,cls:'center',val:r=>r._rank,cell:(td,r)=>td.innerHTML=rankHTML(r._rank-1)},
     {k:'name',label:TH('캐릭명'),cell:(td,r)=>{td.innerHTML=`<b>${escapeHTML(r.name)}</b>`;editableCell(td,()=>r.ref.name,x=>{r.ref.name=x;});}},
     {k:'power',label:TH('전투력'),num:true,hidden:!showPower(),val:r=>r.power,cell:(td,r)=>td.innerHTML=powerHTML(r.power)},
-    ...idxs.map(i=>({k:'v'+i,label:TH(cur().skillHeaders[i]),group:cfg.mode==='ox'?skillGroupOf(cur().skillHeaders[i]):'',cls:'center',val:r=>r.ref.vals[i],cell:(td,r)=>{
+    ...idxs.map(i=>({k:'v'+i,label:TH(cur().skillHeaders[i]),group:cfg.mode==='ox'?skillGroupOf(cur().skillHeaders[i]):'',gidx:cfg.mode==='ox'?Object.keys(SKILL_GROUPS).indexOf(skillGroupOf(cur().skillHeaders[i])):-1,cls:'center',val:r=>r.ref.vals[i],cell:(td,r)=>{
       const v=r.ref.vals[i];
       if(cfg.mode==='mau'){
         td.innerHTML=mauHTML(v);
