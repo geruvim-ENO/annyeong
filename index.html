@@ -1673,8 +1673,10 @@ function renderAuction(){
   const rows=()=>all.map(rec=>({name:rec.name,power:pmap[rec.name]??null,
       mauItems:items(rec,MAU_ITEMS),launcherItems:items(rec,LAUNCHERS),ref:rec}))
     .map(r=>({...r,mau:itemsText(r.mauItems),launcher:itemsText(r.launcherItems)}))
-    .filter(r=>!mauOnlyActive||progressed(r.mauItems)||progressed(r.launcherItems)||memoOf(r.name))
-    .sort((a,b)=>(b.power||0)-(a.power||0));
+    .map(r=>({...r,hasInfo:progressed(r.mauItems)||progressed(r.launcherItems)||!!memoOf(r.name)}))
+    .filter(r=>!mauOnlyActive||r.hasInfo)
+    // 정보를 입력한 캐릭터가 먼저, 각 묶음 안에서는 전투력 높은 순 (동률은 명단 순서 유지)
+    .sort((a,b)=>(b.hasInfo-a.hasInfo)||((b.power||0)-(a.power||0)));
   // 완성 = 회색 글자, 미완성(빈칸·진행 중) = 주황 글자
   const progressHTML=list=>list.map(x=>x.done
     ?`<span class="pdone">${escapeHTML(x.nm)} ${escapeHTML(TV('완성'))}</span>`
@@ -1692,7 +1694,7 @@ function renderAuction(){
       editableCell(td,()=>memoOf(r.name),x=>setMemo(r.name,x));}}
   ];
   const host=document.getElementById('mauHost');
-  const t=sortableTable(cols,rows,{defaultSort:'power',defaultDir:-1});
+  const t=sortableTable(cols,rows,{defaultSort:null});
   host.appendChild(t);t.querySelector('.tblwrap').classList.add('frz');
   document.getElementById('tglActive').onclick=()=>{mauOnlyActive=!mauOnlyActive;renderAuction();};
   // --- 시작가 ---
