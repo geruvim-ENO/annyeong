@@ -94,7 +94,6 @@ th{color:var(--mut);font-size:12px;font-weight:700;background:#0D1524;box-shadow
 .grouplbl .ln{flex:1;height:1px;background:var(--line)}
 .grouplbl.in{color:var(--cyan)}
 .grouplbl.out{color:var(--amber)}
-.grouplbl.trip{color:#C9A6F5}
 .draghandle{cursor:grab;font-size:15px;user-select:none;color:var(--mut);display:inline-block;padding:2px 4px}
 .draghandle:hover{color:var(--cyan)}
 tr.dragging{opacity:.35}
@@ -427,7 +426,7 @@ function migrate(d){ // 구버전 데이터 자동 변환 + 누락 필드 보강
     if(d&&d.notice&&Array.isArray(d.notice.roster))d.notice.roster=d.notice.roster.map(r=>{
       const a=r.slice();while(a.length<6)a.push('');
       if(!a[4])a[4]=(a[3]&&/부캐/.test(a[3]))?'부캐':'본캐';
-      a[5]=(a[5]==='외근'||a[5]==='아레나')?a[5]:(a[5]==='출장'?'외근':'내근'); // 명단 자체 위치(장비 탭과 별개)
+      a[5]=(a[5]==='외근'||a[5]==='출장')?'외근':'내근'; // 명단 자체 위치(장비 탭과 별개)
       return a;});
     if(d&&!d.rosterCols)d.rosterCols={talk:true,notice:true};
     if(d&&!d.links)d.links=JSON.parse(JSON.stringify(SNAP.links));
@@ -542,9 +541,9 @@ function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t
 
 
 /* ===== 다국어 ===== */
-const I18N={"공지": "Notice", "캐릭터 장비": "Gear", "스킬": "Skills", "마유": "MAU", "워게임": "War Game", "경매": "Auction", "계산기": "Calculator", "설명서": "Guide", "설명서-운영진": "Guide (Admin)", "🔒 수정 모드": "🔒 Edit Mode", "✏️ 수정 중": "✏️ Editing", "💾 저장": "💾 Save", "운영진": "Admin", "길드원": "Member", "변경 취소": "Discard", "스냅샷으로 초기화": "Reset to snapshot", "닫기": "Close", "확인": "OK", "취소": "Cancel", "저장": "Save", "추가": "Add", "삭제": "Delete", "미확인": "Unknown", "캐릭명": "Character", "전투력": "Power", "단톡방": "Group Chat", "공지방": "Notice Room", "캐릭터명 검색…": "Search character…", "열 제목 클릭 = 정렬": "Click header to sort", "+ 캐릭터 추가": "+ Add Character", "+ 길드원 추가": "+ Add Member", "추가할 캐릭터명": "Character name to add", "진행 중만": "In progress only", "전체 보기": "Show all", "길드 컨텐츠 스케줄": "Guild Content Schedule", "컨텐츠": "Content", "공대 참여": "Raid", "미참여": "Penalty", "길드 규칙": "Guild Rules", "길드원 명단": "Member Roster", "탭 노출 설정": "Tab Visibility", "탭 수정 권한": "Tab Edit Permission", "+ 일정 추가": "+ Add Schedule", "지원 요청 시": "On request", "운영진 전용": "Admin only", "길드원 허용": "Member allowed", "캐릭터 기본 정보": "Character Gear", "장비 현황": "Equipment", "본/슈트": "Main Suit", "본/무기": "Main Weapon", "부/슈트": "Sub Suit", "부/무기": "Sub Weapon", "서클릿": "Circlet", "귀걸이": "Earring", "목걸이": "Necklace", "디멘션큐브": "Dimension Cube", "사이오닉": "Psionic", "하이퍼": "Hyper", "드라이브": "Drive", "스타게이저": "Stargazer", "디플렉터": "Deflector", "스킬 습득 현황": "Skill Status", "난공불락": "Impregnable", "삼위일체": "Trinity", "정면승부": "Head-On", "피의광기": "Blood Frenzy", "동체시력": "Dynamic Vision", "4스킬": "Skill 4", "5스킬": "Skill 5", "6스킬": "Skill 6", "7스킬": "Skill 7", "8스킬": "Skill 8", "9스킬": "Skill 9", "마유 보유 현황": "MAU Status", "타이폰": "Typhon", "케이론PC": "Chiron PC", "케이론IC": "Chiron IC", "카드모스PC": "Kadmos PC", "MAU / 런처 진행 현황": "MAU / Launcher Progress", "런처": "Launcher", "편성": "Formation", "+ 공대": "+ Party", "+ 인원 줄": "+ Add Row", "플레이 방법": "Strategy", "중복 배치 없음": "No duplicates", "⚠ 중복 배치": "⚠ Duplicated", "📷 캡처 화면": "📷 Capture", "이미지 복사": "Copy Image", "센터 장악": "Center", "내부전장": "Inner Field", "로봇/점수": "Robot/Score", "경매 시작가": "Starting Bids", "시작가 / 방식": "Start / Method", "+ 항목": "+ Item", "실시간 · 시트 동기화": "Live · Synced", "시트에 저장된 데이터 없음": "No data in sheet", "서버 연결 실패": "Server connection failed", "시트에서 불러오는 중…": "Loading from sheet…", "✅ 구글 시트(엑셀)에 저장되었습니다": "✅ Saved to Google Sheets", "변경": "Changes", "저장되었습니다": "Saved", "가져오기": "Import", "변경사항 내보내기(JSON)": "Export (JSON)", "수정 모드 진입": "Enter Edit Mode", "비밀번호 입력": "Enter password", "비밀번호가 올바르지 않거나 서버에 연결할 수 없습니다.": "Wrong password or server unreachable.", "저장 확인": "Confirm Save", "진입": "Enter", "캐릭터": "Characters", "평균 전투력": "Avg. Power", "최고 전투력": "Top Power", "본캐 / 부캐": "Main / Alt", "(숨김)": "(hidden)", "길드 포털": "Guild Portal", "진행 현황": "Progress", "길드명 변경": "Change guild name", "부제 변경": "Change subtitle", "이 탭은 운영진만 수정할 수 있습니다": "This tab can only be edited by admins", "클릭해서 입력": "Click to write", "외근 인원 없음": "No away members", "캡처": "Capture", "전원 참여 필요 · 중립 시 패널티 없음": "All members · no penalty when neutral", "이곳에서만 관리": "Managed here only", "위치별 보기 · 순위는 내근/외근 그룹별로 1위부터 · 수정 모드에서 위치 칸 클릭 = 전환": "Grouped by location · rank restarts at 1 per group · click Location in Edit Mode to switch", "O=습득(초록), X=미습득": "O = learned (green), X = not learned", "1 · 2 = 진행 단계, 완성 = 보유 완료": "1 · 2 = in progress, Done = complete", "칸을 클릭할 때마다 빈칸 → 1 → 2 → 완성 순으로 변경됩니다": "Each click cycles blank → 1 → 2 → Done", "O/X 셀 클릭 = O→X→빈칸 토글 · 숫자/기타 값은 더블클릭 편집": "Click to cycle O → X → blank · double-click for other values", "수정하려면 우측 상단 수정 모드(비밀번호 필요)": "Use Edit Mode at the top right to make changes", "진행도는 [마유] 탭에서 입력합니다 · 비고만 이곳에서 직접 수정": "Progress comes from the MAU tab · only Note is edited here", "입찰 다이아는 길드 금고 귀속 후 전 길드원(부캐 제외) 매월 균등 분배": "Bid diamonds go to the guild vault and are split monthly among all members (alts excluded)", "캐릭터 목록·전투력·마유 탭에서 자동 집계 · 투력순": "Auto-compiled from roster, power and MAU tab · by power", "체크 해제하면 일반 보기에서 숨겨집니다": "Unchecked tabs are hidden from members", "길드원 비밀번호로도 수정 가능한 탭": "Tabs members are allowed to edit", "길드 소통 채널": "Guild channels", "확인 중…": "Checking…", "✏️ 운영진 모드 — 모든 탭 수정 가능": "✏️ Admin mode — all tabs editable", "✏️ 길드원 모드 — 수정 가능: ": "✏️ Member mode — editable: ", "없음": "none", "수정 모드 종료": "Exit Edit Mode", "종료": "Exit", "비밀번호를 입력하세요.\n운영진: 모든 탭 수정 · 길드원: 허용된 탭만 수정": "Enter your password.\nAdmin: all tabs · Member: allowed tabs only", "되돌리기": "Revert", "변경사항이 없습니다": "No changes to save", "저장 실패: 인증 만료 — 수정 모드를 다시 시작하세요": "Save failed: session expired — restart Edit Mode", "⚠ 시트 저장 실패: ": "⚠ Save to sheet failed: ", "저장됨 (시트 동기화 미설정)": "Saved locally (sync not configured)", "모든 수정 내용을 버리고 엑셀 스냅샷 상태로 되돌립니다.": "Discard all edits and restore the built-in snapshot.", "초기화": "Reset", "초기화됨 — 저장해야 시트에 반영됩니다": "Reset — press Save to apply to the sheet", "— 없음 —": "— none —", "— 비움 —": "— clear —", "텍스트를 드래그로 선택한 뒤 위 버튼을 누르면 서식이 적용됩니다": "Select text, then click a button above to format it", "편성 데이터가 없습니다": "No formation data", "✅ 복사되었습니다": "✅ Copied", "복사 미지원 — 우클릭 저장": "Copy unsupported — right-click to save", "예) 라인 유지 · 상대 진입 저지 · 버프 대기": "e.g. Hold the line · block entry · wait for buffs", "공대 이름 (빈칸 입력 시 이 공대 삭제)": "Party name (leave blank to delete this party)", "부제 변경 (예: RF ONLINE NEXT)": "Change subtitle (e.g. RF ONLINE NEXT)", "길드명 변경 — 저장해야 확정됩니다": "Guild name changed — press Save to confirm", "데이터 가져오기": "Import data", "가져오기 완료 — 저장 버튼을 눌러야 시트에 반영됩니다": "Imported — press Save to apply to the sheet", "올바르지 않은 파일입니다": "Invalid file", "시트 연결 대기": "Waiting for sheet", " 역할명 (같은 이름 중복 사용 가능)": " role name (duplicates allowed)", " 값": " value", " 공대를 삭제할까요?": " — delete this party?", " 님을 명단·장비·스킬·마유에서 모두 삭제할까요?": " — remove from roster, gear, skills and MAU?", " 님을 모든 탭에서 삭제할까요?": " — remove from all tabs?", "영웅 스킬 효율": "Hero Skill Efficiency", "노드작 효율": "Node Farming Efficiency", "크레딧 환산": "Credit Conversion", "낮을수록 유리": "lower is better", "높을수록 유리": "higher is better", "가격÷기대노드량 · 낮을수록 유리": "price ÷ expected nodes · lower is better", "필요 갯수": "Qty needed", "경매장 가격(다야)": "Market price (dia)", "경매장 가격": "Market price", "효율(=갯수×가격)": "Efficiency (qty × price)", "아이템": "Item", "경매가": "Market", "환산값": "Value", "환산값(=다야/가격×단위)": "Value (dia ÷ price × unit)", "4T 희귀": "4T Rare", "5T 희귀": "5T Rare", "6T 희귀": "6T Rare", "1T 영웅": "1T Hero", "50만 크레딧": "500K Credit", "깊은 곳의 파편": "Deep Fragment", "기대 노드량 = Σ(실패확률 × 강화 노드) · 확률 0/0.15/0.30/0.45/0.55": "Expected nodes = Σ(fail rate × nodes) · rates 0/0.15/0.30/0.45/0.55", "파란 글씨 칸만 수정 · 각 표의 빈 행에 새 항목을 추가하면 자동 계산 · [영웅 스킬]·[노드]는 낮을수록, [크레딧]은 높을수록 효율적": "Edit the blue cells only · add items in empty rows for automatic calculation", "효율 계산기 (영웅 스킬 · 노드 · 크레딧)": "Efficiency Calculator (Hero Skills · Nodes · Credits)", "명 (내근": " (Home", "개 공대": " parties", "명단·전투력은 공지 길드원 명단 기준": "Roster and power follow the Notice roster", "데이터 원본: Google Sheets · 저장 시 시트에 직접 기록됩니다 ·": "Data source: Google Sheets · saved directly to the sheet ·", "서버 연결 실패 — SYNC_URL 확인 필요": "Server connection failed — check SYNC_URL", "운영진 비밀번호로만 수정 · 길드원 허용 = 두 비밀번호 모두 수정 가능": "Admin only = admin password required · Member allowed = either password works", "수정 모드에서는 숨긴 탭도 (숨김) 표시와 함께 계속 보입니다": "Hidden tabs stay visible to admins in Edit Mode, marked (hidden)", "장비 셀 클릭 = 드롭다운 선택 · 캐릭명/전투력은 직접 입력 · 저장 시 순위 자동 재계산": "Click a gear cell for the dropdown · type name and power directly · rank recalculates on save", "셀 클릭 = 편집 · 자격 칸은 자유 입력(예: 구매가능, 구매불가능, 구매가능 1인 1개 가능)": "Click a cell to edit", "붉은 행 = 단톡방 가입 · 공지방 미가입": "Red row = in group chat but not in notice room", "건": "", "수정 모드": "Edit Mode", "오픈채팅": "Open Chat", "디스코드": "Discord", "링크 수정": "Edit links", "카카오톡 오픈채팅 주소": "KakaoTalk open chat URL", "디스코드 주소": "Discord URL", "오픈채팅 참여": "Open Chat", "디스코드 참여": "Discord", "비밀번호": "Password", "비번": "PW", "재료 제작 계산기": "Material Crafting", "하급 가격 입력 시 상급·최상급 적정가 자동 계산": "Enter Low price to get Mid/High values", "재료": "Material", "하급": "Low", "상급": "Mid", "최상급": "High", "초고밀도": "Ultra-dense", "필라멘트": "Filament", "섬유다발": "Fiber Bundle", "연마제": "Abrasive", "금속판": "Metal Plate", "홀리스톤 합금": "Holystone Alloy", "칼론촉매": "Kalon Catalyst", "제작 조건": "Recipe", "필요 수량": "Qty needed", "크레딧": "Credits", "적정가": "Fair Price", "하급 20개 + 20,000 크레딧": "20 Low + 20,000 credits", "상급 15개 + 80,000 크레딧": "15 Mid + 80,000 credits", "상급 12개 + 홀리스톤 합금 20개 + 칼론촉매 2개": "12 Mid + 20 Holystone Alloy + 2 Kalon Catalyst", "50만 크레딧 시세(다야)": "500K credits price (dia)", "크레딧 환산 단가": "Credit rate", "하급 환산": "in Low units", "총 크레딧": "Total credits", "가격만 다야로 계산 · 크레딧은 별도 표 참조": "Price in dia only · see credit table separately", "등급": "Grade", "1단계 크레딧": "Single-step Credits", "누적 크레딧": "Cumulative Credits", "이미 재료를 갖고 있을 때, 이번 제작 한 번에만 드는 크레딧": "Credits for just this one craft, assuming you already hold the ingredients", "하급부터 시작해 이 등급 1개를 만드는 데 드는 크레딧 총합": "Total credits to reach this grade from Low, from scratch", "하급 20개": "20 Low", "상급 15개": "15 Mid", "상급 12개": "12 Mid", "크레딧 요약": "Credit Summary", "홀리스톤 합금·칼론촉매는 별도 구매 재료라 크레딧에 포함되지 않습니다": "Holystone Alloy and Kalon Catalyst are purchased separately and not included in the credit total", "최상급 12개": "12 High", "값이 자동 저장되어 다음에 열어도 유지됩니다": "Values are saved automatically and kept next time", "조잡한 합금": "Crude Alloy", "아케인 합금": "Arcane Alloy", "등급에 따라 이름이 바뀌는 재료": "Item name changes by grade", "조잡한 합금 20개": "20 Crude Alloy", "아케인 합금 15개": "15 Arcane Alloy", "홀리스톤 합금 계열 (같은 제작 규칙)": "Holystone Alloy line (same recipe)", "홀리스톤 합금 20개 크래프팅 포함": "includes crafting 20 Holystone Alloy", "칼론촉매는 제작 규칙이 알려지지 않아 크레딧에 포함되지 않습니다": "Kalon Catalyst has no known recipe, so it is not included in the credit total", "드래그로 순서 변경": "Drag to reorder", "위치별 보기 · 순위는 그룹별로 1위부터 · 수정 모드에서 위치 칸 클릭 = 목록에서 선택": "Grouped by location · rank restarts at 1 per group · click Location in Edit Mode to pick from a list", "아레나 인원 없음": "No arena members", "자유 시트": "Free Sheet", "자유롭게 메모·계산·표를 만들 수 있는 빈 시트입니다": "A blank sheet for notes, tables, anything you like", "+ 행 추가": "+ Add Row", "+ 열 추가": "+ Add Column", "전체 지우기": "Clear All", "전체 지우기 — 이 시트의 모든 내용을 지웁니다. 계속할까요?": "Clear All — erase everything on this sheet. Continue?", "추첨": "Draw", "돌리기": "Spin", "처음부터": "Start over", "부캐 제외": "Exclude alts", "추첨 결과": "Results", "추첨 완료": "All drawn", "남은 인원": "Remaining", "아직 추첨하지 않았습니다": "No draws yet", "추첨 결과가 없습니다": "No results to capture", "처음부터 다시 추첨할까요? 지금까지의 결과가 지워집니다.": "Start over? Current results will be cleared.", "길드원 명단에서 불러와 돌림판으로 순서를 정합니다": "Loads the member roster and ranks members by spinning the wheel", "돌림판이 멈췄을 때 위쪽 화살표가 가리키는 이름이 다음 등수가 되고, 뽑힌 이름은 돌림판에서 빠집니다 · 결과는 이 브라우저에만 저장됩니다": "When the wheel stops, the name under the top arrow takes the next rank and is removed from the wheel · results are kept in this browser only", "등수": "Rank", "이름": "Name", "참가자": "Participants", "× = 이번 추첨에서 빼기 · 노란색 = 직접 추가": "× = remove from this draw · yellow = added manually", "추가할 이름": "Name to add", "+ 추가": "+ Add", "길드원 명단으로 되돌리기": "Reset to roster", "빼기": "Remove", "참가자가 없습니다": "No participants", "이미 있는 이름입니다": "That name is already in the draw", "이름은 20자까지 입력할 수 있습니다": "Names can be up to 20 characters", "직접 추가하거나 뺀 참가자를 모두 되돌리고 길드원 명단으로 다시 불러올까요? (추첨 결과는 유지)": "Undo all manual additions/removals and reload the roster? (results are kept)"};
+const I18N={"공지": "Notice", "캐릭터 장비": "Gear", "스킬": "Skills", "마유": "MAU", "워게임": "War Game", "경매": "Auction", "계산기": "Calculator", "설명서": "Guide", "설명서-운영진": "Guide (Admin)", "🔒 수정 모드": "🔒 Edit Mode", "✏️ 수정 중": "✏️ Editing", "💾 저장": "💾 Save", "운영진": "Admin", "길드원": "Member", "변경 취소": "Discard", "스냅샷으로 초기화": "Reset to snapshot", "닫기": "Close", "확인": "OK", "취소": "Cancel", "저장": "Save", "추가": "Add", "삭제": "Delete", "미확인": "Unknown", "캐릭명": "Character", "전투력": "Power", "단톡방": "Group Chat", "공지방": "Notice Room", "캐릭터명 검색…": "Search character…", "열 제목 클릭 = 정렬": "Click header to sort", "+ 캐릭터 추가": "+ Add Character", "+ 길드원 추가": "+ Add Member", "추가할 캐릭터명": "Character name to add", "진행 중만": "In progress only", "전체 보기": "Show all", "길드 컨텐츠 스케줄": "Guild Content Schedule", "컨텐츠": "Content", "공대 참여": "Raid", "미참여": "Penalty", "길드 규칙": "Guild Rules", "길드원 명단": "Member Roster", "탭 노출 설정": "Tab Visibility", "탭 수정 권한": "Tab Edit Permission", "+ 일정 추가": "+ Add Schedule", "지원 요청 시": "On request", "운영진 전용": "Admin only", "길드원 허용": "Member allowed", "캐릭터 기본 정보": "Character Gear", "장비 현황": "Equipment", "본/슈트": "Main Suit", "본/무기": "Main Weapon", "부/슈트": "Sub Suit", "부/무기": "Sub Weapon", "서클릿": "Circlet", "귀걸이": "Earring", "목걸이": "Necklace", "디멘션큐브": "Dimension Cube", "사이오닉": "Psionic", "하이퍼": "Hyper", "드라이브": "Drive", "스타게이저": "Stargazer", "디플렉터": "Deflector", "스킬 습득 현황": "Skill Status", "난공불락": "Impregnable", "삼위일체": "Trinity", "정면승부": "Head-On", "피의광기": "Blood Frenzy", "동체시력": "Dynamic Vision", "4스킬": "Skill 4", "5스킬": "Skill 5", "6스킬": "Skill 6", "7스킬": "Skill 7", "8스킬": "Skill 8", "9스킬": "Skill 9", "마유 보유 현황": "MAU Status", "타이폰": "Typhon", "케이론PC": "Chiron PC", "케이론IC": "Chiron IC", "카드모스PC": "Kadmos PC", "MAU / 런처 진행 현황": "MAU / Launcher Progress", "런처": "Launcher", "편성": "Formation", "+ 공대": "+ Party", "+ 인원 줄": "+ Add Row", "플레이 방법": "Strategy", "중복 배치 없음": "No duplicates", "⚠ 중복 배치": "⚠ Duplicated", "📷 캡처 화면": "📷 Capture", "이미지 복사": "Copy Image", "센터 장악": "Center", "내부전장": "Inner Field", "로봇/점수": "Robot/Score", "경매 시작가": "Starting Bids", "시작가 / 방식": "Start / Method", "+ 항목": "+ Item", "실시간 · 시트 동기화": "Live · Synced", "시트에 저장된 데이터 없음": "No data in sheet", "서버 연결 실패": "Server connection failed", "시트에서 불러오는 중…": "Loading from sheet…", "✅ 구글 시트(엑셀)에 저장되었습니다": "✅ Saved to Google Sheets", "변경": "Changes", "저장되었습니다": "Saved", "가져오기": "Import", "변경사항 내보내기(JSON)": "Export (JSON)", "수정 모드 진입": "Enter Edit Mode", "비밀번호 입력": "Enter password", "비밀번호가 올바르지 않거나 서버에 연결할 수 없습니다.": "Wrong password or server unreachable.", "저장 확인": "Confirm Save", "진입": "Enter", "캐릭터": "Characters", "평균 전투력": "Avg. Power", "최고 전투력": "Top Power", "본캐 / 부캐": "Main / Alt", "(숨김)": "(hidden)", "길드 포털": "Guild Portal", "진행 현황": "Progress", "길드명 변경": "Change guild name", "부제 변경": "Change subtitle", "이 탭은 운영진만 수정할 수 있습니다": "This tab can only be edited by admins", "클릭해서 입력": "Click to write", "외근 인원 없음": "No away members", "캡처": "Capture", "전원 참여 필요 · 중립 시 패널티 없음": "All members · no penalty when neutral", "이곳에서만 관리": "Managed here only", "위치별 보기 · 순위는 내근/외근 그룹별로 1위부터 · 수정 모드에서 위치 칸 클릭 = 전환": "Grouped by location · rank restarts at 1 per group · click Location in Edit Mode to switch", "O=습득(초록), X=미습득": "O = learned (green), X = not learned", "1 · 2 = 진행 단계, 완성 = 보유 완료": "1 · 2 = in progress, Done = complete", "칸을 클릭할 때마다 빈칸 → 1 → 2 → 완성 순으로 변경됩니다": "Each click cycles blank → 1 → 2 → Done", "O/X 셀 클릭 = O→X→빈칸 토글 · 숫자/기타 값은 더블클릭 편집": "Click to cycle O → X → blank · double-click for other values", "수정하려면 우측 상단 수정 모드(비밀번호 필요)": "Use Edit Mode at the top right to make changes", "진행도는 [마유] 탭에서 입력합니다 · 비고만 이곳에서 직접 수정": "Progress comes from the MAU tab · only Note is edited here", "입찰 다이아는 길드 금고 귀속 후 전 길드원(부캐 제외) 매월 균등 분배": "Bid diamonds go to the guild vault and are split monthly among all members (alts excluded)", "캐릭터 목록·전투력·마유 탭에서 자동 집계 · 투력순": "Auto-compiled from roster, power and MAU tab · by power", "체크 해제하면 일반 보기에서 숨겨집니다": "Unchecked tabs are hidden from members", "길드원 비밀번호로도 수정 가능한 탭": "Tabs members are allowed to edit", "길드 소통 채널": "Guild channels", "확인 중…": "Checking…", "✏️ 운영진 모드 — 모든 탭 수정 가능": "✏️ Admin mode — all tabs editable", "✏️ 길드원 모드 — 수정 가능: ": "✏️ Member mode — editable: ", "없음": "none", "수정 모드 종료": "Exit Edit Mode", "종료": "Exit", "비밀번호를 입력하세요.\n운영진: 모든 탭 수정 · 길드원: 허용된 탭만 수정": "Enter your password.\nAdmin: all tabs · Member: allowed tabs only", "되돌리기": "Revert", "변경사항이 없습니다": "No changes to save", "저장 실패: 인증 만료 — 수정 모드를 다시 시작하세요": "Save failed: session expired — restart Edit Mode", "⚠ 시트 저장 실패: ": "⚠ Save to sheet failed: ", "저장됨 (시트 동기화 미설정)": "Saved locally (sync not configured)", "모든 수정 내용을 버리고 엑셀 스냅샷 상태로 되돌립니다.": "Discard all edits and restore the built-in snapshot.", "초기화": "Reset", "초기화됨 — 저장해야 시트에 반영됩니다": "Reset — press Save to apply to the sheet", "— 없음 —": "— none —", "— 비움 —": "— clear —", "텍스트를 드래그로 선택한 뒤 위 버튼을 누르면 서식이 적용됩니다": "Select text, then click a button above to format it", "편성 데이터가 없습니다": "No formation data", "✅ 복사되었습니다": "✅ Copied", "복사 미지원 — 우클릭 저장": "Copy unsupported — right-click to save", "예) 라인 유지 · 상대 진입 저지 · 버프 대기": "e.g. Hold the line · block entry · wait for buffs", "공대 이름 (빈칸 입력 시 이 공대 삭제)": "Party name (leave blank to delete this party)", "부제 변경 (예: RF ONLINE NEXT)": "Change subtitle (e.g. RF ONLINE NEXT)", "길드명 변경 — 저장해야 확정됩니다": "Guild name changed — press Save to confirm", "데이터 가져오기": "Import data", "가져오기 완료 — 저장 버튼을 눌러야 시트에 반영됩니다": "Imported — press Save to apply to the sheet", "올바르지 않은 파일입니다": "Invalid file", "시트 연결 대기": "Waiting for sheet", " 역할명 (같은 이름 중복 사용 가능)": " role name (duplicates allowed)", " 값": " value", " 공대를 삭제할까요?": " — delete this party?", " 님을 명단·장비·스킬·마유에서 모두 삭제할까요?": " — remove from roster, gear, skills and MAU?", " 님을 모든 탭에서 삭제할까요?": " — remove from all tabs?", "영웅 스킬 효율": "Hero Skill Efficiency", "노드작 효율": "Node Farming Efficiency", "크레딧 환산": "Credit Conversion", "낮을수록 유리": "lower is better", "높을수록 유리": "higher is better", "가격÷기대노드량 · 낮을수록 유리": "price ÷ expected nodes · lower is better", "필요 갯수": "Qty needed", "경매장 가격(다야)": "Market price (dia)", "경매장 가격": "Market price", "효율(=갯수×가격)": "Efficiency (qty × price)", "아이템": "Item", "경매가": "Market", "환산값": "Value", "환산값(=다야/가격×단위)": "Value (dia ÷ price × unit)", "4T 희귀": "4T Rare", "5T 희귀": "5T Rare", "6T 희귀": "6T Rare", "1T 영웅": "1T Hero", "50만 크레딧": "500K Credit", "깊은 곳의 파편": "Deep Fragment", "기대 노드량 = Σ(실패확률 × 강화 노드) · 확률 0/0.15/0.30/0.45/0.55": "Expected nodes = Σ(fail rate × nodes) · rates 0/0.15/0.30/0.45/0.55", "파란 글씨 칸만 수정 · 각 표의 빈 행에 새 항목을 추가하면 자동 계산 · [영웅 스킬]·[노드]는 낮을수록, [크레딧]은 높을수록 효율적": "Edit the blue cells only · add items in empty rows for automatic calculation", "효율 계산기 (영웅 스킬 · 노드 · 크레딧)": "Efficiency Calculator (Hero Skills · Nodes · Credits)", "명 (내근": " (Home", "개 공대": " parties", "명단·전투력은 공지 길드원 명단 기준": "Roster and power follow the Notice roster", "데이터 원본: Google Sheets · 저장 시 시트에 직접 기록됩니다 ·": "Data source: Google Sheets · saved directly to the sheet ·", "서버 연결 실패 — SYNC_URL 확인 필요": "Server connection failed — check SYNC_URL", "운영진 비밀번호로만 수정 · 길드원 허용 = 두 비밀번호 모두 수정 가능": "Admin only = admin password required · Member allowed = either password works", "수정 모드에서는 숨긴 탭도 (숨김) 표시와 함께 계속 보입니다": "Hidden tabs stay visible to admins in Edit Mode, marked (hidden)", "장비 셀 클릭 = 드롭다운 선택 · 캐릭명/전투력은 직접 입력 · 저장 시 순위 자동 재계산": "Click a gear cell for the dropdown · type name and power directly · rank recalculates on save", "셀 클릭 = 편집 · 자격 칸은 자유 입력(예: 구매가능, 구매불가능, 구매가능 1인 1개 가능)": "Click a cell to edit", "붉은 행 = 단톡방 가입 · 공지방 미가입": "Red row = in group chat but not in notice room", "건": "", "수정 모드": "Edit Mode", "오픈채팅": "Open Chat", "디스코드": "Discord", "링크 수정": "Edit links", "카카오톡 오픈채팅 주소": "KakaoTalk open chat URL", "디스코드 주소": "Discord URL", "오픈채팅 참여": "Open Chat", "디스코드 참여": "Discord", "비밀번호": "Password", "비번": "PW", "재료 제작 계산기": "Material Crafting", "하급 가격 입력 시 상급·최상급 적정가 자동 계산": "Enter Low price to get Mid/High values", "재료": "Material", "하급": "Low", "상급": "Mid", "최상급": "High", "초고밀도": "Ultra-dense", "필라멘트": "Filament", "섬유다발": "Fiber Bundle", "연마제": "Abrasive", "금속판": "Metal Plate", "홀리스톤 합금": "Holystone Alloy", "칼론촉매": "Kalon Catalyst", "제작 조건": "Recipe", "필요 수량": "Qty needed", "크레딧": "Credits", "적정가": "Fair Price", "하급 20개 + 20,000 크레딧": "20 Low + 20,000 credits", "상급 15개 + 80,000 크레딧": "15 Mid + 80,000 credits", "상급 12개 + 홀리스톤 합금 20개 + 칼론촉매 2개": "12 Mid + 20 Holystone Alloy + 2 Kalon Catalyst", "50만 크레딧 시세(다야)": "500K credits price (dia)", "크레딧 환산 단가": "Credit rate", "하급 환산": "in Low units", "총 크레딧": "Total credits", "가격만 다야로 계산 · 크레딧은 별도 표 참조": "Price in dia only · see credit table separately", "등급": "Grade", "1단계 크레딧": "Single-step Credits", "누적 크레딧": "Cumulative Credits", "이미 재료를 갖고 있을 때, 이번 제작 한 번에만 드는 크레딧": "Credits for just this one craft, assuming you already hold the ingredients", "하급부터 시작해 이 등급 1개를 만드는 데 드는 크레딧 총합": "Total credits to reach this grade from Low, from scratch", "하급 20개": "20 Low", "상급 15개": "15 Mid", "상급 12개": "12 Mid", "크레딧 요약": "Credit Summary", "홀리스톤 합금·칼론촉매는 별도 구매 재료라 크레딧에 포함되지 않습니다": "Holystone Alloy and Kalon Catalyst are purchased separately and not included in the credit total", "최상급 12개": "12 High", "값이 자동 저장되어 다음에 열어도 유지됩니다": "Values are saved automatically and kept next time", "조잡한 합금": "Crude Alloy", "아케인 합금": "Arcane Alloy", "등급에 따라 이름이 바뀌는 재료": "Item name changes by grade", "조잡한 합금 20개": "20 Crude Alloy", "아케인 합금 15개": "15 Arcane Alloy", "홀리스톤 합금 계열 (같은 제작 규칙)": "Holystone Alloy line (same recipe)", "홀리스톤 합금 20개 크래프팅 포함": "includes crafting 20 Holystone Alloy", "칼론촉매는 제작 규칙이 알려지지 않아 크레딧에 포함되지 않습니다": "Kalon Catalyst has no known recipe, so it is not included in the credit total", "드래그로 순서 변경": "Drag to reorder", "위치별 보기 · 순위는 그룹별로 1위부터 · 수정 모드에서 위치 칸 클릭 = 목록에서 선택": "Grouped by location · rank restarts at 1 per group · click Location in Edit Mode to pick from a list", "자유 시트": "Free Sheet", "자유롭게 메모·계산·표를 만들 수 있는 빈 시트입니다": "A blank sheet for notes, tables, anything you like", "+ 행 추가": "+ Add Row", "+ 열 추가": "+ Add Column", "전체 지우기": "Clear All", "전체 지우기 — 이 시트의 모든 내용을 지웁니다. 계속할까요?": "Clear All — erase everything on this sheet. Continue?", "추첨": "Draw", "돌리기": "Spin", "처음부터": "Start over", "부캐 제외": "Exclude alts", "추첨 결과": "Results", "추첨 완료": "All drawn", "남은 인원": "Remaining", "아직 추첨하지 않았습니다": "No draws yet", "추첨 결과가 없습니다": "No results to capture", "처음부터 다시 추첨할까요? 지금까지의 결과가 지워집니다.": "Start over? Current results will be cleared.", "길드원 명단에서 불러와 돌림판으로 순서를 정합니다": "Loads the member roster and ranks members by spinning the wheel", "돌림판이 멈췄을 때 위쪽 화살표가 가리키는 이름이 다음 등수가 되고, 뽑힌 이름은 돌림판에서 빠집니다 · 결과는 이 브라우저에만 저장됩니다": "When the wheel stops, the name under the top arrow takes the next rank and is removed from the wheel · results are kept in this browser only", "등수": "Rank", "이름": "Name", "참가자": "Participants", "× = 이번 추첨에서 빼기 · 노란색 = 직접 추가": "× = remove from this draw · yellow = added manually", "추가할 이름": "Name to add", "+ 추가": "+ Add", "길드원 명단으로 되돌리기": "Reset to roster", "빼기": "Remove", "참가자가 없습니다": "No participants", "이미 있는 이름입니다": "That name is already in the draw", "이름은 20자까지 입력할 수 있습니다": "Names can be up to 20 characters", "직접 추가하거나 뺀 참가자를 모두 되돌리고 길드원 명단으로 다시 불러올까요? (추첨 결과는 유지)": "Undo all manual additions/removals and reload the roster? (results are kept)"};
 const I18N_HDR={"본/슈트": "Main Suit", "본/무기": "Main Weapon", "부/슈트": "Sub Suit", "부/무기": "Sub Weapon", "목": "Neck", "가슴": "Chest", "팔": "Arm", "하체": "Lower", "다리": "Leg", "서클릿": "Circlet", "귀걸이": "Earring", "목걸이": "Necklace", "팔찌": "Bangle", "반지": "Ring", "디멘션큐브": "Dimension Cube", "사이오닉": "Psionic", "하이퍼": "Hyper", "퀸텀": "Quantum", "드라이브": "Drive", "스타게이저": "Stargazer", "디플렉터": "Deflector", "난공불락": "Impregnable", "삼위일체": "Trinity", "기달": "Gidal", "정면승부": "Head-On", "피의광기": "Blood Frenzy", "무달": "Mudal", "동체시력": "Dynamic Vision", "4스킬": "Skill 4", "5스킬": "Skill 5", "6스킬": "Skill 6", "7스킬": "Skill 7", "8스킬": "Skill 8", "9스킬": "Skill 9", "템페": "Tempest", "헤라": "Hera", "오딘": "Odin", "토르": "Thor", "타이폰": "Typhon", "케이론PC": "Chiron PC", "케이론IC": "Chiron IC", "카드모스PC": "Kadmos PC", "위치": "Location", "순위": "Rank", "캐릭명": "Character", "전투력": "Power", "구분": "Type", "비고": "Note", "단톡방": "Group Chat", "공지방": "Notice Room", "순서": "Order", "요일": "Day", "시간": "Time", "컨텐츠": "Content", "공대 참여": "Raid", "미참여": "Penalty", "등급": "Grade", "가격": "Price", "효율": "Efficiency", "항목": "Item", "아이템": "Item", "다야": "Dia", "경매가": "Market", "환산값": "Value", "필요 갯수": "Qty needed", "경매장 가격": "Market price", "진행 현황": "Progress", "시작가 / 방식": "Start / Method"};
-const I18N_VAL={"내근": "Home", "외근": "Away", "본캐": "Main", "부캐": "Alt", "전체": "All", "완성": "Done", "미확인": "Unknown", "필수": "Required", "자율": "Optional", "지원 요청 시": "On request", "월": "Mon", "화": "Tue", "수": "Wed", "목": "Thu", "금": "Fri", "토": "Sat", "일": "Sun", "라인": "Line", "버프": "Buff", "센터 장악": "Center", "본진": "Base", "내부전장": "Inner Field", "로봇/점수": "Robot/Score", "낙원": "Paradise", "전장": "Battlefield", "일반": "Common", "고급": "Uncommon", "희귀": "Rare", "영웅": "Hero", "4T 희귀": "4T Rare", "5T 희귀": "5T Rare", "6T 희귀": "6T Rare", "1T 영웅": "1T Hero", "50만 크레딧": "500K Credit", "깊은 곳의 파편": "Deep Fragment", "공대": "Party", "아레나": "Arena"};
+const I18N_VAL={"내근": "Home", "외근": "Away", "본캐": "Main", "부캐": "Alt", "전체": "All", "완성": "Done", "미확인": "Unknown", "필수": "Required", "자율": "Optional", "지원 요청 시": "On request", "월": "Mon", "화": "Tue", "수": "Wed", "목": "Thu", "금": "Fri", "토": "Sat", "일": "Sun", "라인": "Line", "버프": "Buff", "센터 장악": "Center", "본진": "Base", "내부전장": "Inner Field", "로봇/점수": "Robot/Score", "낙원": "Paradise", "전장": "Battlefield", "일반": "Common", "고급": "Uncommon", "희귀": "Rare", "영웅": "Hero", "4T 희귀": "4T Rare", "5T 희귀": "5T Rare", "6T 희귀": "6T Rare", "1T 영웅": "1T Hero", "50만 크레딧": "500K Credit", "깊은 곳의 파편": "Deep Fragment", "공대": "Party"};
 let LANG=(localStorage.getItem('portalLang')||'ko');
 function TH(s){ if(LANG==='ko'||s==null)return s;
   const k=String(s).trim();return I18N_HDR[k]!==undefined?I18N_HDR[k]:T(k); }
@@ -901,6 +900,8 @@ function sortableTable(cols,rows,opts={}){
   draw();
   return wrap;
 }
+// 전투력 수치는 운영진 수정 모드에서만 화면에 표시(일반·길드원 화면에서는 숨김)
+const showPower=()=>document.body.classList.contains('editing')&&role==='admin';
 const powerHTML=p=>`<div class="pbar"><i style="width:${Math.round((p||0)/maxPower()*100)}%"></i><span>${fmt(p)}</span></div>`;
 const rankHTML=i=>`<span class="rank ${i<3?'r'+(i+1):''}">${i+1}</span>`;
 
@@ -1035,9 +1036,8 @@ function renderNotice(){
   const rLoc=r=>normLoc(r[5]);   // 명단 전용 위치 (캐릭터 장비와 무관)
   const inList=N.roster.filter(r=>rLoc(r)==='내근');
   const outL=N.roster.filter(r=>rLoc(r)==='외근');
-  const tripL=N.roster.filter(r=>rLoc(r)==='아레나');
   const rc=s.querySelector('#rosterCnt');
-  if(rc)rc.textContent=LANG==='ko'?`총 ${total}명 · 내근 ${inList.length} · 외근 ${outL.length} · 아레나 ${tripL.length}`:`${total} total · Home ${inList.length} · Away ${outL.length} · Arena ${tripL.length}`;
+  if(rc)rc.textContent=LANG==='ko'?`총 ${total}명 · 내근 ${inList.length} · 외근 ${outL.length}`:`${total} total · Home ${inList.length} · Away ${outL.length}`;
 
   let dragSrcRow=null;
   function reorderWithinGroup(list,srcRow,tgtRow){
@@ -1066,7 +1066,6 @@ function renderNotice(){
       const tr=document.createElement('tr');
       const rloc=rLoc(row);
       if(rloc==='외근')tr.style.background='rgba(245,165,36,.07)';
-      else if(rloc==='아레나')tr.style.background='rgba(168,85,247,.07)';
       else if(row[1]==='O'&&row[2]==='X')tr.style.background='rgba(255,93,108,.05)';
       if(E){ // 드래그 핸들로 순서 변경
         const tm=document.createElement('td');tm.className='center';
@@ -1122,11 +1121,6 @@ function renderNotice(){
     if(outL.length)rhost.appendChild(buildRosterTable(outL,'외근'));
     else{const d=document.createElement('div');d.className='note';d.textContent=T('외근 인원 없음');rhost.appendChild(d);}
   }
-  if(tripL.length||E){
-    addLbl('trip','■ '+TV('아레나'),tripL.length);
-    if(tripL.length)rhost.appendChild(buildRosterTable(tripL,'아레나'));
-    else{const d=document.createElement('div');d.className='note';d.textContent=T('아레나 인원 없음');rhost.appendChild(d);}
-  }
   const ar=s.querySelector('#addRoster');
   if(ar)ar.onclick=()=>{const n=prompt(T('추가할 캐릭터명'));if(!n||!n.trim())return;
     ensureChar(n.trim(),'내근');setDirty(dirty+1);renderAll();};
@@ -1172,7 +1166,7 @@ let curEditable=false; // 현재 렌더 중인 탭의 편집 허용 여부
 function locTabs(key,rerender){
   const wrap=document.createElement('div');wrap.className='search';
   wrap.style.marginBottom='10px';
-  ['전체','내근','외근','아레나'].forEach(v=>{
+  ['전체','내근','외근'].forEach(v=>{
     const b=document.createElement('button');b.className='btn'+(locFilter[key]===v?' primary':'');
     b.textContent=TV(v);b.onclick=()=>{locFilter[key]=v;rerender();};
     wrap.appendChild(b);
@@ -1184,9 +1178,9 @@ function locTabs(key,rerender){
 }
 // 위치는 캐릭터명 기준으로 장비/스킬 탭이 공유
 // 위치 기준 = 공지 탭 길드원 명단 (장비·스킬·마유 탭은 이를 따라감)
-const LOC_STATES=['내근','외근','아레나'];
+const LOC_STATES=['내근','외근'];
 function normLoc(v){return LOC_STATES.includes(v)?v:'내근';}
-// 위치 칸 클릭 → 드롭다운(내근·외근·아레나)에서 선택
+// 위치 칸 클릭 → 드롭다운(내근·외근)에서 선택
 function locSelectCell(td,getLoc,apply){
   td.classList.add('editable');
   td.onclick=()=>{
@@ -1218,16 +1212,16 @@ function setLoc(name,v,self){
   const s=cur().skills.find(x=>x.name===name);if(s)s.loc=v;
   if(self)self.loc=v;
 }
-const LOC_COLOR={'내근':['rgba(59,214,232,.12)','var(--cyan)'],'외근':['rgba(245,165,36,.15)','var(--amber)'],'아레나':['rgba(168,85,247,.18)','#C9A6F5']};
+const LOC_COLOR={'내근':['rgba(59,214,232,.12)','var(--cyan)'],'외근':['rgba(245,165,36,.15)','var(--amber)']};
 const locHTML=v=>{const g=normLoc(v),c=LOC_COLOR[g];
   return `<span class="badge" style="background:${c[0]};color:${c[1]}">${TV(g)}</span>`;};
 
 function renderBasic(){
   const s=document.getElementById('sec-basic');const E=can('basic');curEditable=E;
   const f=locFilter.basic;
-  const inCnt=listByRoster('basic','내근').length,outCnt=listByRoster('basic','외근').length,tripCnt=listByRoster('basic','아레나').length;
-  const shown={length:f==='전체'?inCnt+outCnt+tripCnt:(f==='내근'?inCnt:(f==='외근'?outCnt:tripCnt))};
-  s.innerHTML=`<div class="panel"><h2>${T('캐릭터 기본 정보')} <span class="sub">${T('장비 현황')} · ${shown.length}${LANG==='ko'?'명':''} (${TV('내근')} ${inCnt} · ${TV('외근')} ${outCnt} · ${TV('아레나')} ${tripCnt})</span>
+  const inCnt=listByRoster('basic','내근').length,outCnt=listByRoster('basic','외근').length;
+  const shown={length:f==='전체'?inCnt+outCnt:(f==='내근'?inCnt:outCnt)};
+  s.innerHTML=`<div class="panel"><h2>${T('캐릭터 기본 정보')} <span class="sub">${T('장비 현황')} · ${shown.length}${LANG==='ko'?'명':''} (${TV('내근')} ${inCnt} · ${TV('외근')} ${outCnt})</span>
     <span class="right">${E?'<button class="btn" id="addBasic">'+T('+ 캐릭터 추가')+'</button>':''}</span></h2><div id="basicLoc"></div><div id="basicHost"></div>
   <div class="note">${T(E?'장비 셀 클릭 = 드롭다운 선택 · 캐릭명/전투력은 직접 입력 · 저장 시 순위 자동 재계산':'수정하려면 우측 상단 수정 모드(비밀번호 필요)')}</div></div>`;
   const cols=[
@@ -1236,7 +1230,7 @@ function renderBasic(){
       locSelectCell(td,()=>r.ref.loc,v=>{setLoc(r.name,v,r.ref);setDirty(dirty+1);renderBasic();});}},
     {k:'_rank',label:TH('순위'),num:true,cls:'center',val:r=>r._rank,cell:(td,r)=>td.innerHTML=rankHTML(r._rank-1)},
     {k:'name',label:TH('캐릭명'),cell:(td,r)=>{td.innerHTML=`<b>${escapeHTML(r.name)}</b>`;editableCell(td,()=>r.ref.name,x=>{r.ref.name=x;});}},
-    {k:'power',label:TH('전투력'),num:true,hidden:!E,val:r=>r.ref.power,cell:(td,r)=>{
+    {k:'power',label:TH('전투력'),num:true,hidden:!showPower(),val:r=>r.ref.power,cell:(td,r)=>{
       td.dataset.num='1';td.innerHTML=`<span class="num">${fmt(r.ref.power)}</span>`;
       editableCell(td,()=>r.ref.power,x=>{r.ref.power=x===''?null:parseInt(String(x).replace(/[^0-9]/g,''))||0;});}},
     ...cur().basicHeaders.map((h,i)=>({k:'eq'+i,label:TH(h),cls:'center',val:r=>r.ref.eq[i],cell:(td,r)=>{
@@ -1264,8 +1258,8 @@ function renderBasic(){
     host.appendChild(t);
     t.querySelector('.tblwrap').classList.add('frz');
   };
-  if(f2==='전체'){addGroup('내근','in','■ '+TV('내근'));addGroup('외근','out','■ '+TV('외근'));addGroup('아레나','trip','■ '+TV('아레나'));}
-  else addGroup(f2,f2==='외근'?'out':(f2==='아레나'?'trip':'in'),TV(f2));
+  if(f2==='전체'){addGroup('내근','in','■ '+TV('내근'));addGroup('외근','out','■ '+TV('외근'));}
+  else addGroup(f2,f2==='외근'?'out':'in',TV(f2));
   const ab=document.getElementById('addBasic');
   if(ab)ab.onclick=()=>{const n=prompt(T('추가할 캐릭터명'));if(!n||!n.trim())return;
     ensureChar(n.trim(),normLoc(locFilter.basic));setDirty(dirty+1);renderAll();};
@@ -1277,9 +1271,9 @@ function renderSkillLike(cfg){
   // cfg: {sec, key, title, idxs, mode:'ox'|'mau', rerender, note}
   const s=document.getElementById('sec-'+cfg.sec);const E=can(cfg.key);curEditable=E;
   const f=locFilter[cfg.key];
-  const inCnt=listByRoster('skills','내근').length,outCnt=listByRoster('skills','외근').length,tripCnt=listByRoster('skills','아레나').length;
-  const shown={length:f==='전체'?inCnt+outCnt+tripCnt:(f==='내근'?inCnt:(f==='외근'?outCnt:tripCnt))};
-  s.innerHTML=`<div class="panel"><h2>${cfg.title} <span class="sub">${shown.length}${LANG==='ko'?'명':''} (${TV('내근')} ${inCnt} · ${TV('외근')} ${outCnt} · ${TV('아레나')} ${tripCnt}) · ${T('명단·전투력은 공지 길드원 명단 기준')}</span>
+  const inCnt=listByRoster('skills','내근').length,outCnt=listByRoster('skills','외근').length;
+  const shown={length:f==='전체'?inCnt+outCnt:(f==='내근'?inCnt:outCnt)};
+  s.innerHTML=`<div class="panel"><h2>${cfg.title} <span class="sub">${shown.length}${LANG==='ko'?'명':''} (${TV('내근')} ${inCnt} · ${TV('외근')} ${outCnt}) · ${T('명단·전투력은 공지 길드원 명단 기준')}</span>
     <span class="right">${E?`<button class="btn" id="add-${cfg.sec}">${T('+ 캐릭터 추가')}</button>`:''}</span></h2>
     <div id="loc-${cfg.sec}"></div><div id="host-${cfg.sec}"></div>
     <div class="note">${cfg.note}</div></div>`;
@@ -1291,7 +1285,7 @@ function renderSkillLike(cfg){
       locSelectCell(td,()=>locOf(r.name,r.ref),v=>{setLoc(r.name,v,r.ref);setDirty(dirty+1);cfg.rerender();});}},
     {k:'_rank',label:TH('순위'),num:true,cls:'center',val:r=>r._rank,cell:(td,r)=>td.innerHTML=rankHTML(r._rank-1)},
     {k:'name',label:TH('캐릭명'),cell:(td,r)=>{td.innerHTML=`<b>${escapeHTML(r.name)}</b>`;editableCell(td,()=>r.ref.name,x=>{r.ref.name=x;});}},
-    {k:'power',label:TH('전투력'),num:true,hidden:!E,val:r=>r.power,cell:(td,r)=>td.innerHTML=powerHTML(r.power)},
+    {k:'power',label:TH('전투력'),num:true,hidden:!showPower(),val:r=>r.power,cell:(td,r)=>td.innerHTML=powerHTML(r.power)},
     ...idxs.map(i=>({k:'v'+i,label:TH(cur().skillHeaders[i]),cls:'center',val:r=>r.ref.vals[i],cell:(td,r)=>{
       const v=r.ref.vals[i];
       if(cfg.mode==='mau'){
@@ -1330,8 +1324,8 @@ function renderSkillLike(cfg){
     host.appendChild(t);
     t.querySelector('.tblwrap').classList.add('frz');
   };
-  if(f2==='전체'){addGroup('내근','in','■ '+TV('내근'));addGroup('외근','out','■ '+TV('외근'));addGroup('아레나','trip','■ '+TV('아레나'));}
-  else addGroup(f2,f2==='외근'?'out':(f2==='아레나'?'trip':'in'),TV(f2));
+  if(f2==='전체'){addGroup('내근','in','■ '+TV('내근'));addGroup('외근','out','■ '+TV('외근'));}
+  else addGroup(f2,f2==='외근'?'out':'in',TV(f2));
   const ab=document.getElementById('add-'+cfg.sec);
   if(ab)ab.onclick=()=>{const n=prompt(T('추가할 캐릭터명'));if(!n||!n.trim())return;
     ensureChar(n.trim(),normLoc(locFilter[cfg.key]));setDirty(dirty+1);renderAll();};
@@ -1637,7 +1631,7 @@ function renderAuction(){
     if(e)e.memo=v;else L.push({name:n,memo:v});};
   const sum=(rec,names)=>names.map(nm=>{const i=idxOf(nm);const v=i>=0?String((rec.vals||[])[i]||'').trim():'';
     return v?`${nm} ${v}`:'';}).filter(Boolean).join(' · ');
-  const all=[...listByRoster('skills','내근'),...listByRoster('skills','외근'),...listByRoster('skills','아레나')];
+  const all=[...listByRoster('skills','내근'),...listByRoster('skills','외근')];
   const rows=()=>all.map(rec=>({name:rec.name,power:pmap[rec.name]??null,
       mau:sum(rec,MAU_ITEMS),launcher:sum(rec,LAUNCHERS),ref:rec}))
     .filter(r=>!mauOnlyActive||r.mau||r.launcher||memoOf(r.name))
@@ -1645,7 +1639,7 @@ function renderAuction(){
   const cols=[
     {k:'_rank',label:'#',cls:'center',cell:(td,r,i)=>td.innerHTML=`<span class="rank ${i<3?'r'+(i+1):''}">${i+1}</span>`},
     {k:'name',label:TH('캐릭명'),cell:(td,r)=>td.innerHTML=`<b>${escapeHTML(r.name)}</b>`},
-    {k:'power',label:TH('전투력'),num:true,cell:(td,r)=>td.innerHTML=powerHTML(r.power)},
+    {k:'power',label:TH('전투력'),num:true,hidden:!showPower(),cell:(td,r)=>td.innerHTML=powerHTML(r.power)},
     {k:'mau',label:LANG==='ko'?'마유 (템페·헤라·오딘·토르·타이폰)':'MAU (Tempest·Hera·Odin·Thor·Typhon)',cell:(td,r)=>{
       td.innerHTML=r.mau?`<span style="color:var(--amber);font-size:12px">${escapeHTML(r.mau)}</span>`:'<span style="color:#3A4966">—</span>';}},
     {k:'launcher',label:LANG==='ko'?'런처 (케이론PC·IC·카드모스PC)':'Launcher (Chiron PC·IC·Kadmos PC)',cell:(td,r)=>{
@@ -1730,10 +1724,10 @@ let drawState=(()=>{
       return Object.assign({added:[],removed:[],locs:drawAllLocs()},s);}catch(e){}
   return {pool:null,results:[],added:[],removed:[],locs:drawAllLocs()};
 })();
-function drawAllLocs(){return {'내근':true,'외근':true,'아레나':true};}
+function drawAllLocs(){return {'내근':true,'외근':true};}
 let drawRot=0,drawSpinning=false;
 function saveDraw(){try{localStorage.setItem(DRAW_KEY,JSON.stringify(drawState));}catch(e){}}
-// 참가자 = 길드원 명단 중 선택한 위치(내근·외근·아레나) − 직접 뺀 이름 + 직접 추가한 이름
+// 참가자 = 길드원 명단 중 선택한 위치(내근·외근) − 직접 뺀 이름 + 직접 추가한 이름
 function drawCandidates(){
   const rm=new Set(drawState.removed),L=drawState.locs||drawAllLocs();
   const out=(cur().notice.roster||[]).filter(r=>r[0]&&L[normLoc(r[5])]!==false).map(r=>r[0]).filter(n=>!rm.has(n));
@@ -1863,7 +1857,7 @@ function renderDraw(){
     if(drawState.results.length&&!confirm(T('처음부터 다시 추첨할까요? 지금까지의 결과가 지워집니다.')))return;
     drawState.results=[];drawState.pool=drawCandidates();drawRot=0;saveDraw();renderDraw();
   };
-  // 위치(내근·외근·아레나)별 참가 포함/제외 — 이미 뽑힌 사람은 다시 들어가지 않음
+  // 위치(내근·외근)별 참가 포함/제외 — 이미 뽑힌 사람은 다시 들어가지 않음
   document.querySelectorAll('#sec-draw .drawLoc').forEach(cb=>cb.onchange=()=>{
     if(drawSpinning)return;
     drawState.locs[cb.dataset.loc]=cb.checked;
@@ -2079,7 +2073,7 @@ function renderHelp(){
     <ul>
       <li><b>Find yourself</b> — type your character name in the search box above the table.</li>
       <li><b>Sort</b> — click any column header; click again to reverse.</li>
-      <li><b>Home / Away / Arena</b> — the table is split into three groups. Look in the one you belong to; ask an admin to move you.</li>
+      <li><b>Home / Away</b> — the table is split into two groups. Look in the one you belong to; ask an admin to move you.</li>
       <li><b>Rank</b> — based on combat power, numbered from 1 within each group.</li>
       <li><b>Narrow screens</b> — swipe the table sideways. The character column stays fixed on the left.</li>
     </ul>
@@ -2131,8 +2125,8 @@ function renderHelp(){
     <ul>
       <li><b>내 캐릭터 찾기</b> — 표 위 검색창에 캐릭터명을 입력하면 바로 걸러집니다.</li>
       <li><b>정렬</b> — 열 제목을 클릭하면 그 기준으로 정렬됩니다. 다시 누르면 역순.</li>
-      <li><b>내근 / 외근 / 아레나</b> — 표가 세 덩어리로 나뉘어 있습니다. 본인이 속한 쪽에서 찾으세요. 위치 변경은 운영진에게 요청하시면 됩니다.</li>
-      <li><b>순위</b> — 전투력 기준이며, 내근·외근·아레나 각각 1위부터 매겨집니다.</li>
+      <li><b>내근 / 외근</b> — 표가 두 덩어리로 나뉘어 있습니다. 본인이 속한 쪽에서 찾으세요. 위치 변경은 운영진에게 요청하시면 됩니다.</li>
+      <li><b>순위</b> — 전투력 기준이며, 내근·외근 각각 1위부터 매겨집니다.</li>
       <li><b>화면이 좁을 때</b> — 표를 좌우로 밀어서 나머지 항목을 볼 수 있습니다. 캐릭명은 왼쪽에 고정되어 있습니다.</li>
     </ul>
 
@@ -2177,7 +2171,7 @@ function renderHelpAdmin(){
       <li><b>Member roster</b> — this roster is the <b>source of truth for every tab</b>. A character must be listed here to appear under Gear, Skills and MAU.
         <ul>
           <li>Click the Type cell to toggle Main ↔ Alt</li>
-          <li>Click the Location cell and pick Home, Away or Arena from the list (the table splits automatically)</li>
+          <li>Click the Location cell and pick Home or Away from the list (the table splits automatically)</li>
           <li><span class="kbd">▲▼</span> in the Order column moves a row within its group</li>
           <li><b>+ Add Member</b> creates the character in the roster, Gear, Skills and MAU <b>at once</b></li>
           <li>The row-end <b>×</b> removes them everywhere (with confirmation)</li>
@@ -2277,7 +2271,7 @@ function renderHelpAdmin(){
       <li><b>길드원 명단</b> — 이 명단이 <b>모든 탭의 기준</b>입니다. 여기 등록해야 장비·스킬·마유 탭에 나타납니다.
         <ul>
           <li>구분 칸 클릭 = 본캐 ↔ 부캐</li>
-          <li>위치 칸 클릭 → 목록에서 내근·외근·아레나 선택 (표가 자동으로 나뉩니다)</li>
+          <li>위치 칸 클릭 → 목록에서 내근·외근 선택 (표가 자동으로 나뉩니다)</li>
           <li>순서 열 <span class="kbd">▲▼</span> = 같은 그룹 안에서 순서 이동</li>
           <li><b>+ 길드원 추가</b> = 이름 한 번 입력으로 명단·장비·스킬·마유에 <b>동시 생성</b></li>
           <li>행 끝 <b>×</b> = 모든 탭에서 한꺼번에 삭제 (확인창 있음)</li>
@@ -2352,11 +2346,13 @@ function renderHelpAdmin(){
 /* ===== 통계 ===== */
 function renderStats(){
   const powers=cur().basic.map(b=>b.power).filter(p=>p);
-  const items=[["캐릭터",cur().basic.length],
-    ["평균 전투력",powers.length?Math.round(powers.reduce((a,b)=>a+b,0)/powers.length).toLocaleString():'—'],
-    ["최고 전투력",powers.length?Math.max(...powers).toLocaleString():'—'],
-    ["길드원 명단",cur().notice.roster.length],
-    ["본캐 / 부캐",cur().notice.roster.filter(r=>r[4]!=='부캐').length+' / '+cur().notice.roster.filter(r=>r[4]==='부캐').length]];
+  const items=[["캐릭터",cur().basic.length]];
+  if(showPower()){
+    items.push(["평균 전투력",powers.length?Math.round(powers.reduce((a,b)=>a+b,0)/powers.length).toLocaleString():'—']);
+    items.push(["최고 전투력",powers.length?Math.max(...powers).toLocaleString():'—']);
+  }
+  items.push(["길드원 명단",cur().notice.roster.length]);
+  items.push(["본캐 / 부캐",cur().notice.roster.filter(r=>r[4]!=='부캐').length+' / '+cur().notice.roster.filter(r=>r[4]==='부캐').length]);
   document.getElementById('statStrip').innerHTML=items.map(([l,v])=>`<div class="stat"><div class="v">${v}</div><div class="l">${T(l)}</div></div>`).join('');
 }
 

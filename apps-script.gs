@@ -64,7 +64,7 @@ function readBasic(ss) {
     const power = (typeof r[1] === 'number') ? r[1] : (parseInt(String(r[1]).replace(/[^0-9]/g, '')) || null);
     const eq = [];
     for (var i = 3; i < 24; i++) eq.push(r[i] === null || r[i] === undefined ? '' : String(r[i]));
-    var lv = String(r[24] || '').trim(); const loc = (lv === '외근' || lv === '출장') ? '외근' : (lv === '아레나' ? '아레나' : '내근');
+    var lv = String(r[24] || '').trim(); const loc = (lv === '외근' || lv === '출장') ? '외근' : '내근';
     out.push({ name: name, power: power, eq: eq, loc: loc });
   });
   return out;
@@ -79,7 +79,7 @@ function readSkills(ss) {
     const name = String(r[0] || '').trim(); if (!name) return;
     const v = [];
     for (var i = 3; i < 31; i++) v.push(r[i] === null || r[i] === undefined ? '' : String(r[i]));
-    var lv2 = String(r[31] || '').trim(); const loc = (lv2 === '외근' || lv2 === '출장') ? '외근' : (lv2 === '아레나' ? '아레나' : '내근');
+    var lv2 = String(r[31] || '').trim(); const loc = (lv2 === '외근' || lv2 === '출장') ? '외근' : '내근';
     out.push({ name: name, vals: v, loc: loc });
   });
   return out;
